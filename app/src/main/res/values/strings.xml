@@ -4,7 +4,7 @@
 
     <!-- bottom navigation -->
     <string name="password">password</string>
-    <string name="shop">shop</string>
+    <string name="shop">Shop</string>
     <string name="recommends">recommends</string>
     <string name="videos">videos</string>
     <string name="add_account">Add Account</string>

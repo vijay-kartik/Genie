@@ -42,7 +42,7 @@ fun AccountEntryScreen(
     modifier: Modifier = Modifier
 ) {
     Scaffold(topBar = {
-        TopAppBar(title = { Text(text = stringResource(AccountsDestination.titleRes)) },
+        TopAppBar(title = { Text(text = stringResource(AccountsListDestination.titleRes)) },
             modifier = modifier,
             navigationIcon = {
                 IconButton(onClick = onNavigateUp) {

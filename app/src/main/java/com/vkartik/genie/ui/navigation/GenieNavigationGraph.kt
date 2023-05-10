@@ -8,10 +8,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.vkartik.genie.ui.accounts.AccountEntryDestination
-import com.vkartik.genie.ui.accounts.AccountEntryScreen
-import com.vkartik.genie.ui.accounts.AccountsDestination
-import com.vkartik.genie.ui.accounts.AccountsScreen
 import com.vkartik.genie.ui.shop.ShopDestination
 import com.vkartik.genie.ui.shop.WishList
 
@@ -29,9 +25,7 @@ fun GenieNavHost(
         modifier = modifier
     ) {
         composable(route = AccountsDestination.route) {
-            AccountsScreen(
-                navigateToAccountEntry = { navController.navigate(AccountEntryDestination.route) }
-            )
+            AccountsNavGraph()
         }
         composable(route = ShopDestination.route) {
             WishList(
@@ -41,8 +35,5 @@ fun GenieNavHost(
                     .padding(vertical = 4.dp),
             )
         }
-//        composable(route = AccountEntryDestination.route) {
-//            AccountEntryScreen(onNavigateUp = { navController.navigateUp() })
-//        }
     }
 }

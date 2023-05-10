@@ -22,14 +22,14 @@ import com.vkartik.genie.ui.AppViewModelProvider
 import com.vkartik.genie.ui.components.SearchBar
 import com.vkartik.genie.ui.navigation.NavigationDestination
 
-object AccountsDestination : NavigationDestination {
-    override val route: String = "accounts"
-    override val titleRes: Int = R.string.account
+object AccountsListDestination : NavigationDestination {
+    override val route: String = "list"
+    override val titleRes: Int = R.string.add_account
     override val icon: ImageVector = Icons.Filled.AccountBox
 }
 
 @Composable
-fun AccountsScreen(
+fun AccountsListScreen(
     navigateToAccountEntry: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: AccountsViewModel = viewModel(factory = AppViewModelProvider.Factory)

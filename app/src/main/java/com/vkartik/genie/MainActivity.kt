@@ -23,7 +23,8 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.vkartik.genie.ui.OnBoardingScreen
-import com.vkartik.genie.ui.accounts.AccountsDestination
+import com.vkartik.genie.ui.accounts.AccountsListDestination
+import com.vkartik.genie.ui.navigation.AccountsDestination
 import com.vkartik.genie.ui.navigation.GenieNavHost
 import com.vkartik.genie.ui.shop.ShopDestination
 import com.vkartik.genie.ui.theme.GenieTheme
