@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 //    id 'com.google.devtools.ksp' version "1.8.0-1.0.9"
     id "org.jetbrains.kotlin.kapt" version "1.8.0"
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -70,6 +71,15 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+
+    // Add the dependency for the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

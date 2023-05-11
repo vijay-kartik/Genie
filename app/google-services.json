@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "66443685088",
+    "project_id": "genie-12533",
+    "storage_bucket": "genie-12533.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66443685088:android:d8a1b672dc9cc7c9ec3485",
+        "android_client_info": {
+          "package_name": "com.vkartik.genie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66443685088-e3olmgc8fmj1usa0ev6a2j8vecjd4mj9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCou6bnBmSDqPFDGfbLkcCnp0A7FT__8Sw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66443685088-e3olmgc8fmj1usa0ev6a2j8vecjd4mj9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

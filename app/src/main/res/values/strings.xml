@@ -12,4 +12,5 @@
     <string name="save">Save</string>
     <string name="account_name">Account Name</string>
     <string name="user_name">user name</string>
+    <string name="no_account_description">No Accounts entered yet.</string>
 </resources>

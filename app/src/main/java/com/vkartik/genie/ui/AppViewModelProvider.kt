@@ -13,7 +13,9 @@ object AppViewModelProvider {
         initializer {
             AccountEntryViewModel(genieApplication().container.accountRepository)
         }
-        initializer { AccountsViewModel() }
+        initializer {
+            AccountsViewModel(genieApplication().container.accountRepository)
+        }
     }
 }
 

@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -26,11 +27,14 @@ import com.vkartik.genie.R
 import com.vkartik.genie.ui.AppViewModelProvider
 import com.vkartik.genie.ui.navigation.NavigationDestination
 import com.vkartik.genie.ui.theme.GenieTheme
+import kotlinx.coroutines.launch
 
-object AccountEntryDestination: NavigationDestination {
+object AccountEntryDestination : NavigationDestination {
     override val route: String = "entry"
     override val titleRes: Int = R.string.add_account
     override val icon: ImageVector = Icons.Default.Star
+    const val accountIdArg = "accountId"
+    val routeWithArgs = "$route/{$accountIdArg}"
 }
 
 
@@ -41,6 +45,7 @@ fun AccountEntryScreen(
     viewModel: AccountEntryViewModel = viewModel(factory = AppViewModelProvider.Factory),
     modifier: Modifier = Modifier
 ) {
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(topBar = {
         TopAppBar(title = { Text(text = stringResource(AccountsListDestination.titleRes)) },
             modifier = modifier,
@@ -53,7 +58,11 @@ fun AccountEntryScreen(
         AccountEntryBody(
             accountUiState = viewModel.accountUiState,
             onAccountValueChange = viewModel::updateUiState,
-            onSaveClick = { /*TODO*/ },
+            onSaveClick = {
+                coroutineScope.launch {
+                    viewModel.saveAccount(onNavigateUp)
+                }
+            },
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -95,21 +104,21 @@ fun AccountInputForm(
         OutlinedTextField(
             value = accountUiState.name,
             onValueChange = { onValueChange(accountUiState.copy(name = it)) },
-            label = { Text(text = stringResource(id = R.string.account_name))},
+            label = { Text(text = stringResource(id = R.string.account_name)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = accountUiState.userName,
             onValueChange = { onValueChange(accountUiState.copy(userName = it)) },
-            label = { Text(text = stringResource(id = R.string.user_name))},
+            label = { Text(text = stringResource(id = R.string.user_name)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = accountUiState.password,
             onValueChange = { onValueChange(accountUiState.copy(password = it)) },
-            label = { Text(text = stringResource(id = R.string.password))},
+            label = { Text(text = stringResource(id = R.string.password)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )

@@ -5,9 +5,11 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.vkartik.genie.R
 import com.vkartik.genie.ui.accounts.AccountEntryDestination
 import com.vkartik.genie.ui.accounts.AccountEntryScreen
@@ -23,9 +25,17 @@ object AccountsDestination : NavigationDestination {
 
 @Composable
 fun AccountsNavGraph(navHostController: NavHostController = rememberNavController()) {
-    NavHost(navController = navHostController, route = AccountsDestination.route, startDestination = AccountsListDestination.route) {
+    NavHost(
+        navController = navHostController,
+        route = AccountsDestination.route,
+        startDestination = AccountsListDestination.route
+    ) {
         composable(route = AccountsListDestination.route) {
-            AccountsListScreen(navigateToAccountEntry = { navHostController.navigate(AccountEntryDestination.route) })
+            AccountsListScreen(navigateToAccountEntry = {
+                navHostController.navigate(
+                    AccountEntryDestination.route
+                )
+            })
         }
         composable(route = AccountEntryDestination.route) {
             AccountEntryScreen(onNavigateUp = { navHostController.navigateUp() })
