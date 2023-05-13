@@ -22,9 +22,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.vkartik.genie.R
-import com.vkartik.genie.ui.AppViewModelProvider
 import com.vkartik.genie.ui.navigation.NavigationDestination
 import com.vkartik.genie.ui.theme.GenieTheme
 import kotlinx.coroutines.launch
@@ -42,7 +41,7 @@ object AccountEntryDestination : NavigationDestination {
 @Composable
 fun AccountEntryScreen(
     onNavigateUp: () -> Unit,
-    viewModel: AccountEntryViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: AccountEntryViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()

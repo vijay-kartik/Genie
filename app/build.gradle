@@ -4,6 +4,8 @@ plugins {
 //    id 'com.google.devtools.ksp' version "1.8.0-1.0.9"
     id "org.jetbrains.kotlin.kapt" version "1.8.0"
     id 'com.google.gms.google-services'
+    id 'dagger.hilt.android.plugin'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -20,6 +22,12 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
         }
     }
 
@@ -67,6 +75,11 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation "io.coil-kt:coil-compose:2.3.0"
 
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'com.google.dagger:hilt-android:2.44.2'
+    kapt 'com.google.dagger:hilt-compiler:2.44.2'
+
     // room dependencies
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -78,8 +91,12 @@ dependencies {
     // Add the dependency for the Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-perf-ktx'
+    implementation 'com.google.firebase:firebase-config-ktx'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

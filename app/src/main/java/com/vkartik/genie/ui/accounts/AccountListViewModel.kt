@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vkartik.genie.data.Account
 import com.vkartik.genie.domain.AccountRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
-class AccountsViewModel(accountRepository: AccountRepository) : ViewModel() {
+@HiltViewModel
+class AccountsViewModel @Inject constructor(accountRepository: AccountRepository) : ViewModel() {
     val accountsUiState: StateFlow<AccountsUiState> =
         accountRepository.getAllAccountsStream().map { AccountsUiState(it) }.stateIn(
             scope = viewModelScope,

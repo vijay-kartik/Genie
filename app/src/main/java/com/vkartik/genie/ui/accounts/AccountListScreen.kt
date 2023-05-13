@@ -27,13 +27,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.vkartik.genie.R
 import com.vkartik.genie.data.Account
-import com.vkartik.genie.ui.AppViewModelProvider
 import com.vkartik.genie.ui.components.SearchBar
 import com.vkartik.genie.ui.navigation.NavigationDestination
-import java.text.NumberFormat
 
 object AccountsListDestination : NavigationDestination {
     override val route: String = "list"
@@ -45,7 +43,7 @@ object AccountsListDestination : NavigationDestination {
 fun AccountsListScreen(
     navigateToAccountEntry: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: AccountsViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: AccountsViewModel = hiltViewModel()
 ) {
     val accountsUiState: AccountsUiState by viewModel.accountsUiState.collectAsState()
     Scaffold(floatingActionButton = {

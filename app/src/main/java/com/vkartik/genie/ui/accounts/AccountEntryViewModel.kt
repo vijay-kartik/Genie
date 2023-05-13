@@ -5,15 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.vkartik.genie.domain.AccountRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AccountEntryViewModel(private val accountRepository: AccountRepository): ViewModel() {
+@HiltViewModel
+class AccountEntryViewModel @Inject constructor(private val accountRepository: AccountRepository): ViewModel() {
     var accountUiState: AccountUiState by mutableStateOf(AccountUiState())
     suspend fun saveAccount(postSave: () -> Unit) {
         if(accountUiState.isValid()) {
             accountRepository.insertAccount(accountUiState.toAccount())
             postSave()
         }
-
     }
 
     fun updateUiState(newUiState: AccountUiState) {

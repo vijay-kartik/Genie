@@ -2,8 +2,9 @@ package com.vkartik.genie.data
 
 import com.vkartik.genie.domain.AccountRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class OfflineAccountRepository(private val accountDAO: AccountDAO): AccountRepository {
+class OfflineAccountRepository @Inject constructor(private val accountDAO: AccountDAO): AccountRepository {
     override fun getAllAccountsStream(): Flow<List<Account>> {
         return accountDAO.getAllAccounts()
     }

@@ -28,7 +28,9 @@ import com.vkartik.genie.ui.navigation.AccountsDestination
 import com.vkartik.genie.ui.navigation.GenieNavHost
 import com.vkartik.genie.ui.shop.ShopDestination
 import com.vkartik.genie.ui.theme.GenieTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
