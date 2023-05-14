@@ -24,11 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.vkartik.genie.R
-import com.vkartik.genie.ui.navigation.NavigationDestination
+import com.vkartik.genie.ui.navigation.BottomBarDestination
 import com.vkartik.genie.ui.theme.GenieTheme
 import kotlinx.coroutines.launch
 
-object AccountEntryDestination : NavigationDestination {
+object AccountEntryDestination : BottomBarDestination {
     override val route: String = "entry"
     override val titleRes: Int = R.string.add_account
     override val icon: ImageVector = Icons.Default.Star

@@ -30,7 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.vkartik.genie.ui.OnBoardingScreen
 import com.vkartik.genie.ui.navigation.AccountsDestination
-import com.vkartik.genie.ui.navigation.GenieNavHost
+import com.vkartik.genie.ui.navigation.BottomBarNavHost
 import com.vkartik.genie.ui.shop.ShopDestination
 import com.vkartik.genie.ui.theme.GenieTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
             ShopDestination
         )
         if (shouldShowOnBoarding) {
-            OnBoardingScreen(onContinueClicked = { shouldShowOnBoarding = false })
+            OnBoardingScreen(onLoginClicked = {}, onSignUpClicked = {})
         } else {
             Scaffold(bottomBar = {
                 NavigationBar {
@@ -106,7 +106,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }) { innerPadding ->
-                GenieNavHost(navController = navController, Modifier.padding(innerPadding))
+                BottomBarNavHost(navController = navController, Modifier.padding(innerPadding))
             }
         }
     }

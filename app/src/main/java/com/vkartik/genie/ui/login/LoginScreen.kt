@@ -24,6 +24,10 @@ import com.vkartik.genie.ui.components.BasicTextButton
 import com.vkartik.genie.ui.components.EmailField
 import com.vkartik.genie.ui.components.PasswordField
 
+object LoginDestination {
+    val route: String = "Login"
+}
+
 @Composable
 fun LoginScreen(
     openAndPopUp: (String, String) -> Unit,

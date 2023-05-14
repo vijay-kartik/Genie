@@ -5,18 +5,16 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.vkartik.genie.R
 import com.vkartik.genie.ui.accounts.AccountEntryDestination
 import com.vkartik.genie.ui.accounts.AccountEntryScreen
 import com.vkartik.genie.ui.accounts.AccountsListDestination
 import com.vkartik.genie.ui.accounts.AccountsListScreen
 
-object AccountsDestination : NavigationDestination {
+object AccountsDestination : BottomBarDestination {
     override val route: String = "accounts"
     override val titleRes: Int = R.string.account
     override val icon: ImageVector = Icons.Default.AccountBox

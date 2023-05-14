@@ -20,9 +20,13 @@ import com.vkartik.genie.ui.components.EmailField
 import com.vkartik.genie.ui.components.PasswordField
 import com.vkartik.genie.ui.components.RepeatPasswordField
 
+object SignUpDestination {
+    val route: String = "SignUp"
+}
+
 @Composable
 fun SignUpScreen(
-    openAndPopUp: (String, String) -> Unit,
+//    openAndPopUp: (String, String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
@@ -41,7 +45,7 @@ fun SignUpScreen(
         RepeatPasswordField(uiState.repeatPassword, viewModel::onRepeatPasswordChange, fieldModifier)
 
         BasicButton(R.string.create_account, Modifier.basicButton()) {
-            viewModel.onSignUpClick(openAndPopUp)
+//            viewModel.onSignUpClick(openAndPopUp)
         }
     }
 }

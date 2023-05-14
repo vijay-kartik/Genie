@@ -13,20 +13,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+object OnBoardingDestination {
+    val route: String = "OnBoarding"
+}
+
+
 @Composable
-fun OnBoardingScreen(modifier: Modifier = Modifier, onContinueClicked: () -> Unit) {
+fun OnBoardingScreen(modifier: Modifier = Modifier, onLoginClicked: () -> Unit, onSignUpClicked: () -> Unit) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Welcome to your wishlist")
+        Text(text = "Welcome to Genie App!")
         Button(
             modifier = Modifier.padding(24.dp), 
-            onClick = onContinueClicked,
+            onClick = {},
             colors = ButtonDefaults.filledTonalButtonColors()
         ) {
-            Text(text = "Continue")
+            Text(text = "Login")
+        }
+        Button(
+            modifier = Modifier.padding(24.dp),
+            onClick = {},
+            colors = ButtonDefaults.filledTonalButtonColors()
+        ) {
+            Text(text = "SignUp")
         }
     }
 }

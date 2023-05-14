@@ -31,9 +31,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.vkartik.genie.R
 import com.vkartik.genie.data.Account
 import com.vkartik.genie.ui.components.SearchBar
-import com.vkartik.genie.ui.navigation.NavigationDestination
+import com.vkartik.genie.ui.navigation.BottomBarDestination
 
-object AccountsListDestination : NavigationDestination {
+object AccountsListDestination : BottomBarDestination {
     override val route: String = "list"
     override val titleRes: Int = R.string.add_account
     override val icon: ImageVector = Icons.Filled.AccountBox

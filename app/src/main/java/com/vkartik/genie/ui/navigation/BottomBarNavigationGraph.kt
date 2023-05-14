@@ -15,7 +15,7 @@ import com.vkartik.genie.ui.shop.WishList
  * Provides Navigation graph for the application.
  */
 @Composable
-fun GenieNavHost(
+fun BottomBarNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
