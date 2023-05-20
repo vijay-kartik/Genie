@@ -1,7 +1,7 @@
 package com.vkartik.genie.ui.accounts
 
-import com.vkartik.genie.data.AccountEntity
 import com.vkartik.genie.domain.AccountCategory
+import com.vkartik.genie.domain.model.Account
 
 data class AccountUiState(
     val name: String = "",
@@ -12,7 +12,7 @@ data class AccountUiState(
     val notes: String? = "",
 )
 
-fun AccountUiState.toAccount(): AccountEntity = AccountEntity(
+fun AccountUiState.toAccount(): Account = Account(
     name = name,
     userName = userName,
     password = password,
@@ -21,7 +21,7 @@ fun AccountUiState.toAccount(): AccountEntity = AccountEntity(
     notes = notes
 )
 
-fun AccountEntity.toAccountUiState(): AccountUiState = AccountUiState(
+fun Account.toAccountUiState(): AccountUiState = AccountUiState(
     name,
     userName,
     password,

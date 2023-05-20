@@ -2,8 +2,8 @@ package com.vkartik.genie.ui.accounts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vkartik.genie.data.AccountEntity
 import com.vkartik.genie.domain.repository.AccountRepository
+import com.vkartik.genie.domain.model.Account
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,4 +21,4 @@ class AccountsViewModel @Inject constructor(accountRepository: AccountRepository
         )
 }
 
-data class AccountsUiState(val accountsList: List<AccountEntity> = listOf())
+data class AccountsUiState(val accountsList: List<Account> = listOf())
