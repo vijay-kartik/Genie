@@ -23,7 +23,7 @@ class MainActivityViewModel @Inject constructor(accountService: AccountService) 
             }
         }
     val uiState: StateFlow<MainActivityUiState> = accountService.currentUser.map {
-        if (it.isAnonymous) MainActivityUiState.Success else {
+        if (it.isAnonymous || it.isRealUser) MainActivityUiState.Success else {
             MainActivityUiState.Loading
         }
     }.stateIn(
