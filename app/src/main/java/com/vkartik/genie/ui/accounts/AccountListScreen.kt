@@ -57,24 +57,21 @@ fun AccountsListScreen(
                 tint = MaterialTheme.colors.onPrimary
             )
         }
-    }) { innerPadding ->
+    }, modifier = modifier) { innerPadding ->
         Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(16.dp),
+            modifier = modifier.padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             SearchBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(innerPadding)
                     .heightIn(56.dp)
                     .padding(4.dp)
             )
             AccountList(
                 accountList = accountsUiState.accountsList,
                 onItemClick = { TODO() },
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier
             )
         }
 

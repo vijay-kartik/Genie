@@ -7,10 +7,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material3.BottomAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -18,13 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -32,9 +31,9 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.vkartik.genie.ui.navigation.AccountsDestination
-import com.vkartik.genie.ui.navigation.AccountsNavGraph
 import com.vkartik.genie.ui.navigation.BottomBarNavHost
-import com.vkartik.genie.ui.navigation.OnBoardingNavHost
+import com.vkartik.genie.ui.navigation.GenieNavHost
+import com.vkartik.genie.ui.navigation.OnBoardingNavDestination
 import com.vkartik.genie.ui.shop.ShopDestination
 import com.vkartik.genie.ui.theme.GenieTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -75,32 +74,10 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun MyApp() {
-        val bottomBarItems = listOf(AccountsDestination, ShopDestination)
-        val navController = rememberNavController()
-        Scaffold(bottomBar = {
-            BottomNavigation {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentBackStackEntry = navBackStackEntry?.destination
-                bottomBarItems.forEach { screen ->
-                    BottomNavigationItem(
-                        selected = currentBackStackEntry?.hierarchy?.any { it.route == screen.route } == true,
-                        onClick = { navController.navigate(screen.route) },
-                        icon = { Icon(screen.icon, null) },
-                        label = { Text(screen.route)}
-                    )
-                }
-            }
-        }) {
-            innerPadding ->
-            BottomBarNavHost(navController = navController, modifier = Modifier.fillMaxSize().padding(innerPadding))
-        }
-    }
-
-    @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
-    @Composable
-    fun DefaultPreview() {
-        GenieTheme {
-            MyApp()
-        }
+        GenieNavHost(
+            navController = rememberNavController(),
+            modifier = Modifier
+                .fillMaxSize()
+        )
     }
 }

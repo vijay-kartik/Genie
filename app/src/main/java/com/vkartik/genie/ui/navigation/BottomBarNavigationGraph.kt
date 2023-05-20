@@ -5,11 +5,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.vkartik.genie.ui.shop.ShopDestination
 import com.vkartik.genie.ui.shop.WishList
+
+object BottomBarNavDestination {
+    val route: String = "bottom_bar"
+}
+
 
 /**
  * Provides Navigation graph for the application.
@@ -25,7 +31,7 @@ fun BottomBarNavHost(
         modifier = modifier
     ) {
         composable(route = AccountsDestination.route) {
-            AccountsNavGraph()
+            AccountsNavGraph(modifier = modifier)
         }
         composable(route = ShopDestination.route) {
             WishList(

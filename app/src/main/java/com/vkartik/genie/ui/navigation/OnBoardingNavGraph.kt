@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.vkartik.genie.ui.onboarding.OnBoardingDestination
 import com.vkartik.genie.ui.onboarding.OnBoardingScreen
 import com.vkartik.genie.ui.login.LoginDestination
+import com.vkartik.genie.ui.login.LoginScreen
 import com.vkartik.genie.ui.sign_up.SignUpDestination
 import com.vkartik.genie.ui.sign_up.SignUpScreen
 
@@ -18,7 +19,6 @@ object OnBoardingNavDestination {
 fun OnBoardingNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        route = OnBoardingNavDestination.route,
         startDestination = OnBoardingDestination.route
     ) {
         composable(OnBoardingDestination.route) {
@@ -31,6 +31,15 @@ fun OnBoardingNavHost(navController: NavHostController) {
         }
         composable(SignUpDestination.route) {
             SignUpScreen(openAndPopUp = { route, popUp ->
+                navController.navigate(route) {
+                    popUpTo(
+                        popUp
+                    ) { inclusive = true }
+                }
+            })
+        }
+        composable(LoginDestination.route) {
+            LoginScreen(openAndPopUp = { route, popUp ->
                 navController.navigate(route) {
                     popUpTo(
                         popUp

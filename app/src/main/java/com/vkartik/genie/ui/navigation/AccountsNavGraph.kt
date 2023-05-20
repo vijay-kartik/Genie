@@ -3,6 +3,7 @@ package com.vkartik.genie.ui.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -22,7 +23,7 @@ object AccountsDestination : BottomBarDestination {
 }
 
 @Composable
-fun AccountsNavGraph(navHostController: NavHostController = rememberNavController()) {
+fun AccountsNavGraph(navHostController: NavHostController = rememberNavController(), modifier: Modifier = Modifier) {
     NavHost(
         navController = navHostController,
         route = AccountsDestination.route,
@@ -33,7 +34,7 @@ fun AccountsNavGraph(navHostController: NavHostController = rememberNavControlle
                 navHostController.navigate(
                     AccountEntryDestination.route
                 )
-            })
+            }, modifier = modifier)
         }
         composable(route = AccountEntryDestination.route) {
             AccountEntryScreen(onNavigateUp = { navHostController.navigateUp() })
