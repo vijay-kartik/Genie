@@ -29,7 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.vkartik.genie.R
-import com.vkartik.genie.data.AccountEntity
+import com.vkartik.genie.domain.model.Account
 import com.vkartik.genie.ui.components.SearchBar
 import com.vkartik.genie.ui.navigation.BottomBarDestination
 
@@ -84,8 +84,8 @@ fun AccountsListScreen(
 @Composable
 fun AccountList(
     modifier: Modifier = Modifier,
-    accountList: List<AccountEntity>,
-    onItemClick: (Int) -> Unit
+    accountList: List<Account>,
+    onItemClick: (String) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -100,8 +100,8 @@ fun AccountList(
             )
         } else {
             LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(items = accountList, key = { it.id }) { account ->
-                    AccountEntry(account = account, onAccountClick = { onItemClick(it.id) })
+                items(items = accountList, key = { it.name }) { account ->
+                    AccountEntry(account = account, onAccountClick = { onItemClick(it.name) })
                 }
             }
         }
@@ -110,8 +110,8 @@ fun AccountList(
 
 @Composable
 fun AccountEntry(
-    account: AccountEntity,
-    onAccountClick: (AccountEntity) -> Unit,
+    account: Account,
+    onAccountClick: (Account) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier

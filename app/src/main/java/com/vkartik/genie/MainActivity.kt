@@ -5,7 +5,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -24,9 +28,12 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.vkartik.genie.ui.navigation.AccountsDestination
 import com.vkartik.genie.ui.navigation.AccountsNavGraph
+import com.vkartik.genie.ui.navigation.BottomBarNavHost
 import com.vkartik.genie.ui.navigation.OnBoardingNavHost
 import com.vkartik.genie.ui.shop.ShopDestination
 import com.vkartik.genie.ui.theme.GenieTheme
@@ -52,8 +59,6 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-
         splashScreen.setKeepOnScreenCondition {
             when (uiState) {
                 MainActivityUiState.Loading -> true
@@ -70,16 +75,24 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun MyApp() {
-        var shouldShowOnBoarding by rememberSaveable { mutableStateOf(true) }
+        val bottomBarItems = listOf(AccountsDestination, ShopDestination)
         val navController = rememberNavController()
-        val items = listOf(
-            AccountsDestination,
-            ShopDestination
-        )
-        if (shouldShowOnBoarding) {
-            OnBoardingNavHost(navController = navController)
-        } else {
-            AccountsNavGraph()
+        Scaffold(bottomBar = {
+            BottomNavigation {
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentBackStackEntry = navBackStackEntry?.destination
+                bottomBarItems.forEach { screen ->
+                    BottomNavigationItem(
+                        selected = currentBackStackEntry?.hierarchy?.any { it.route == screen.route } == true,
+                        onClick = { navController.navigate(screen.route) },
+                        icon = { Icon(screen.icon, null) },
+                        label = { Text(screen.route)}
+                    )
+                }
+            }
+        }) {
+            innerPadding ->
+            BottomBarNavHost(navController = navController, modifier = Modifier.fillMaxSize().padding(innerPadding))
         }
     }
 
