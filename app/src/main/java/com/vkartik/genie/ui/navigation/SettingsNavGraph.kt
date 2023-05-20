@@ -11,12 +11,12 @@ import com.vkartik.genie.ui.login.LoginScreen
 import com.vkartik.genie.ui.sign_up.SignUpDestination
 import com.vkartik.genie.ui.sign_up.SignUpScreen
 
-object OnBoardingNavDestination {
+object SettingsNavDestination {
     val route: String = "OnBoardingRoot"
 }
 
-fun NavGraphBuilder.onBoardingGraph(navController: NavHostController) {
-    navigation(route = OnBoardingNavDestination.route, startDestination = OnBoardingDestination.route) {
+fun NavGraphBuilder.settingsGraph(navController: NavHostController) {
+    navigation(route = SettingsNavDestination.route, startDestination = OnBoardingDestination.route) {
         composable(OnBoardingDestination.route) {
             SettingsScreen(onLoginClicked = { navController.navigate(LoginDestination.route) },
                 onSignUpClicked = {

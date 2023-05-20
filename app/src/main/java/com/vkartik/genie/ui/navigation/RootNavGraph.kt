@@ -32,7 +32,7 @@ fun GenieNavHost(navController: NavHostController, modifier: Modifier) {
         CenterAlignedTopAppBar(
             title = { currentBackStackEntry?.route?.let { Text(text = it) } },
             actions = {
-                IconButton(onClick = { navController.navigate(OnBoardingNavDestination.route) }) {
+                IconButton(onClick = { navController.navigate(SettingsNavDestination.route) }) {
                     Icon(Icons.Default.Settings, contentDescription = null)
 
                 }
@@ -43,7 +43,7 @@ fun GenieNavHost(navController: NavHostController, modifier: Modifier) {
             composable(route = BottomBarNavDestination.route) {
                 HomeScreen(modifier = modifier)
             }
-            onBoardingGraph(navController)
+            settingsGraph(navController)
         }
     }
 
