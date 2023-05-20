@@ -9,13 +9,23 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(accountService: AccountService) :
     ViewModel() {
+        init {
+            viewModelScope.launch {
+                if(!accountService.hasUser) {
+                    accountService.createAnonymousAccount()
+                }
+            }
+        }
     val uiState: StateFlow<MainActivityUiState> = accountService.currentUser.map {
-        if (it.isAnonymous) MainActivityUiState.Success else MainActivityUiState.Loading
+        if (it.isAnonymous) MainActivityUiState.Success else {
+            MainActivityUiState.Loading
+        }
     }.stateIn(
         scope = viewModelScope,
         initialValue = MainActivityUiState.Loading,

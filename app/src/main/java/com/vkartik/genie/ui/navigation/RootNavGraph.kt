@@ -43,9 +43,7 @@ fun GenieNavHost(navController: NavHostController, modifier: Modifier) {
             composable(route = BottomBarNavDestination.route) {
                 HomeScreen(modifier = modifier)
             }
-            composable(route = OnBoardingNavDestination.route) {
-                OnBoardingNavHost(navController = rememberNavController())
-            }
+            onBoardingGraph(navController)
         }
     }
 
@@ -67,7 +65,11 @@ fun HomeScreen(modifier: Modifier) {
             }
         }
     }) { innerPadding ->
-        BottomBarNavHost(navController = navController, modifier = modifier.padding(innerPadding))
+        BottomBarNavHost(
+            navController = navController, modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        )
     }
 
 }

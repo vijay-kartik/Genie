@@ -35,7 +35,7 @@ fun OnBoardingScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Welcome to Genie App!")
-        if (uiState.isAnonymousUser) {
+        if (!uiState.isRealUser) {
             Button(
                 modifier = Modifier.padding(24.dp),
                 onClick = onLoginClicked,

@@ -7,6 +7,8 @@ import com.vkartik.genie.GenieViewModel
 import com.vkartik.genie.R
 import com.vkartik.genie.domain.service.AccountService
 import com.vkartik.genie.domain.service.LogService
+import com.vkartik.genie.ui.navigation.BottomBarNavDestination
+import com.vkartik.genie.ui.navigation.OnBoardingNavDestination
 import com.vkartik.genie.ui.snackbar.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -44,11 +46,10 @@ class LoginViewModel @Inject constructor(
             return
         }
 
-//        launchCatching {
-//            accountService.authenticate(email, password)
-//            TODO()
-//            openAndPopUp(SETTINGS_SCREEN, LOGIN_SCREEN)
-//        }
+        launchCatching {
+            accountService.authenticate(email, password)
+            openAndPopUp(BottomBarNavDestination.route, OnBoardingNavDestination.route)
+        }
     }
 
     fun onForgotPasswordClick() {

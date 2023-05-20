@@ -14,13 +14,7 @@ import javax.inject.Inject
 class OnBoardingViewModel @Inject constructor(
     accountService: AccountService
 ): ViewModel() {
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            accountService.createAnonymousAccount()
-        }
-    }
-
     val uiState = accountService.currentUser.map {
-        OnBoardingUiState(it.isAnonymous)
+        OnBoardingUiState(it.isAnonymous, it.isRealUser)
     }
 }
