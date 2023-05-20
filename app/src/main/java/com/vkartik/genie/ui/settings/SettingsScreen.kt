@@ -1,11 +1,10 @@
-package com.vkartik.genie.ui.onboarding
+package com.vkartik.genie.ui.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,13 +21,13 @@ object OnBoardingDestination {
 
 
 @Composable
-fun OnBoardingScreen(
+fun SettingsScreen(
     modifier: Modifier = Modifier,
     onLoginClicked: () -> Unit,
     onSignUpClicked: () -> Unit,
-    viewModel: OnBoardingViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState(initial = OnBoardingUiState(false))
+    val uiState by viewModel.uiState.collectAsState(initial = SettingsUiState(false))
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
