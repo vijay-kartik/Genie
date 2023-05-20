@@ -14,7 +14,7 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
     val uiState: StateFlow<MainActivityUiState> = MutableStateFlow(MainActivityUiState.Success).stateIn(
         scope = viewModelScope,
         initialValue = MainActivityUiState.Loading,
-        started = SharingStarted.WhileSubscribed(5_000)
+        started = SharingStarted.WhileSubscribed(10_000)
     )
 }
 

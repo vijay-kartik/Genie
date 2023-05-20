@@ -24,13 +24,10 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.vkartik.genie.ui.OnBoardingScreen
 import com.vkartik.genie.ui.navigation.AccountsDestination
-import com.vkartik.genie.ui.navigation.BottomBarNavHost
+import com.vkartik.genie.ui.navigation.AccountsNavGraph
+import com.vkartik.genie.ui.navigation.OnBoardingNavHost
 import com.vkartik.genie.ui.shop.ShopDestination
 import com.vkartik.genie.ui.theme.GenieTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -80,34 +77,9 @@ class MainActivity : ComponentActivity() {
             ShopDestination
         )
         if (shouldShowOnBoarding) {
-            OnBoardingScreen(onLoginClicked = {}, onSignUpClicked = {})
+            OnBoardingNavHost(navController = navController)
         } else {
-            Scaffold(bottomBar = {
-                NavigationBar {
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val currentDestination = navBackStackEntry?.destination
-                    items.forEach { destination ->
-                        NavigationBarItem(icon = {
-                            Icon(
-                                destination.icon, contentDescription = null
-                            )
-                        },
-                            label = { Text(text = stringResource(id = destination.titleRes)) },
-                            selected = currentDestination?.hierarchy?.any { it.route == destination.route } == true,
-                            onClick = {
-                                navController.navigate(destination.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            })
-                    }
-                }
-            }) { innerPadding ->
-                BottomBarNavHost(navController = navController, Modifier.padding(innerPadding))
-            }
+            AccountsNavGraph()
         }
     }
 
