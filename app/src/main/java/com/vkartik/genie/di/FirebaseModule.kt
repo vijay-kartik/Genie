@@ -1,4 +1,4 @@
-package com.vkartik.genie.domain.model.service.module
+package com.vkartik.genie.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth

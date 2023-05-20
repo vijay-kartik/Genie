@@ -2,7 +2,7 @@ package com.vkartik.genie
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vkartik.genie.domain.model.service.LogService
+import com.vkartik.genie.domain.service.LogService
 import com.vkartik.genie.ui.snackbar.SnackbarManager
 import com.vkartik.genie.ui.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import kotlinx.coroutines.CoroutineExceptionHandler

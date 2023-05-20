@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.example.makeitso.common.ext.isValidEmail
 import com.vkartik.genie.GenieViewModel
 import com.vkartik.genie.R
-import com.vkartik.genie.domain.model.service.AccountService
-import com.vkartik.genie.domain.model.service.LogService
+import com.vkartik.genie.domain.service.AccountService
+import com.vkartik.genie.domain.service.LogService
 import com.vkartik.genie.ui.snackbar.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.vkartik.genie.domain.model.service
+package com.vkartik.genie.domain.service
 
 import com.vkartik.genie.domain.model.User
 import kotlinx.coroutines.flow.Flow

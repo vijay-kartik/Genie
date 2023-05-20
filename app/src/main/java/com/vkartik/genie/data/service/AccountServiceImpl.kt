@@ -1,11 +1,11 @@
-package com.vkartik.genie.domain.model.service.impl
+package com.vkartik.genie.data.service
 
 import android.util.Log
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.perf.ktx.trace
 import com.vkartik.genie.domain.model.User
-import com.vkartik.genie.domain.model.service.AccountService
+import com.vkartik.genie.domain.service.AccountService
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow

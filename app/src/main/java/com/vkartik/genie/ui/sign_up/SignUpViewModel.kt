@@ -8,8 +8,8 @@ import com.example.makeitso.common.ext.isValidPassword
 import com.example.makeitso.common.ext.passwordMatches
 import com.vkartik.genie.GenieViewModel
 import com.vkartik.genie.R
-import com.vkartik.genie.domain.model.service.AccountService
-import com.vkartik.genie.domain.model.service.LogService
+import com.vkartik.genie.domain.service.AccountService
+import com.vkartik.genie.domain.service.LogService
 import com.vkartik.genie.ui.navigation.AccountsDestination
 import com.vkartik.genie.ui.onboarding.OnBoardingDestination
 import com.vkartik.genie.ui.snackbar.SnackbarManager

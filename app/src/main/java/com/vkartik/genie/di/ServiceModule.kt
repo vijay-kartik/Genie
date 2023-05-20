@@ -1,9 +1,9 @@
-package com.vkartik.genie.domain.model.service.module
+package com.vkartik.genie.di
 
-import com.vkartik.genie.domain.model.service.AccountService
-import com.vkartik.genie.domain.model.service.LogService
-import com.vkartik.genie.domain.model.service.impl.AccountServiceImpl
-import com.vkartik.genie.domain.model.service.impl.LogServiceImpl
+import com.vkartik.genie.domain.service.AccountService
+import com.vkartik.genie.domain.service.LogService
+import com.vkartik.genie.data.service.AccountServiceImpl
+import com.vkartik.genie.data.service.LogServiceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

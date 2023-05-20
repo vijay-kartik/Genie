@@ -11,17 +11,17 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AccountDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(account: Account)
+    suspend fun insert(account: AccountEntity)
 
     @Update
-    suspend fun update(account: Account)
+    suspend fun update(account: AccountEntity)
 
     @Delete
-    suspend fun delete(account: Account)
+    suspend fun delete(account: AccountEntity)
 
     @Query("SELECT * from accounts where id = :id")
-    fun getAccount(id: Int): Flow<Account>
+    fun getAccount(id: Int): Flow<AccountEntity>
 
     @Query("SELECT * from accounts")
-    fun getAllAccounts(): Flow<List<Account>>
+    fun getAllAccounts(): Flow<List<AccountEntity>>
 }

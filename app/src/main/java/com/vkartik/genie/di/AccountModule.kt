@@ -1,7 +1,7 @@
 package com.vkartik.genie.di
 
-import com.vkartik.genie.data.OfflineAccountRepository
-import com.vkartik.genie.domain.AccountRepository
+import com.vkartik.genie.data.repository.OfflineAccountRepository
+import com.vkartik.genie.domain.repository.AccountRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

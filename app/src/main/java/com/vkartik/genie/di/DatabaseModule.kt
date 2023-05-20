@@ -2,7 +2,7 @@ package com.vkartik.genie.di
 
 import android.content.Context
 import com.vkartik.genie.data.AccountDAO
-import com.vkartik.genie.data.AccountDatabase
+import com.vkartik.genie.data.db.AccountDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

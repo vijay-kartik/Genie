@@ -1,6 +1,6 @@
-package com.vkartik.genie.domain
+package com.vkartik.genie.domain.repository
 
-import com.vkartik.genie.data.Account
+import com.vkartik.genie.domain.model.Account
 import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {

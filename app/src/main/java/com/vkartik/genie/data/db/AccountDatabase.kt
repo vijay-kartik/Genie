@@ -1,11 +1,13 @@
-package com.vkartik.genie.data
+package com.vkartik.genie.data.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.vkartik.genie.data.AccountEntity
+import com.vkartik.genie.data.AccountDAO
 
-@Database(entities = [Account::class], version = 1, exportSchema = false)
+@Database(entities = [AccountEntity::class], version = 1, exportSchema = false)
 abstract class AccountDatabase : RoomDatabase() {
     abstract fun accountDao(): AccountDAO
 

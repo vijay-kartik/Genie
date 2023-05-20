@@ -2,8 +2,8 @@ package com.vkartik.genie.ui.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vkartik.genie.domain.model.service.AccountService
-import com.vkartik.genie.domain.model.service.LogService
+import com.vkartik.genie.domain.service.AccountService
+import com.vkartik.genie.domain.service.LogService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map

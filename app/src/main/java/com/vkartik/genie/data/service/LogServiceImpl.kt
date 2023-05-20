@@ -1,8 +1,8 @@
-package com.vkartik.genie.domain.model.service.impl
+package com.vkartik.genie.data.service
 
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
-import com.vkartik.genie.domain.model.service.LogService
+import com.vkartik.genie.domain.service.LogService
 import javax.inject.Inject
 
 class LogServiceImpl @Inject constructor(): LogService {
