@@ -17,6 +17,7 @@ class AccountMapper @Inject constructor() : EntityMapper<AccountEntity, Account>
 
     override fun mapFromEntity(entity: AccountEntity): Account {
         return Account(
+            id = entity.id,
             name = entity.name,
             userName = entity.userName,
             password = entity.password,
@@ -28,6 +29,7 @@ class AccountMapper @Inject constructor() : EntityMapper<AccountEntity, Account>
 
     override fun mapToEntity(domainModel: Account): AccountEntity {
         return AccountEntity(
+            id = domainModel.id,
             name = domainModel.name,
             userName = domainModel.userName,
             password = domainModel.password,

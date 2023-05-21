@@ -3,7 +3,7 @@ package com.vkartik.genie.domain.model
 import com.google.firebase.firestore.DocumentId
 
 data class Account(
-    @DocumentId val id: String = "",
+    val id: Int = 0,
     val name: String,
     val userName: String,
     val password: String,

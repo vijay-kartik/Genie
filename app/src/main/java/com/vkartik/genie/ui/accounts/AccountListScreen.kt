@@ -1,5 +1,6 @@
 package com.vkartik.genie.ui.accounts
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -7,7 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -20,13 +20,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.AbsoluteCutCornerShape
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.SnackbarHost
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
@@ -36,6 +41,7 @@ import androidx.compose.material3.ShapeDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -67,6 +73,7 @@ fun AccountsListScreen(
     viewModel: AccountsViewModel = hiltViewModel()
 ) {
     val accountsUiState: AccountsUiState by viewModel.accountsUiState.collectAsState()
+    val scaffoldState = rememberScaffoldState()
     Scaffold(floatingActionButton = {
         FloatingActionButton(
             onClick = navigateToAccountEntry, modifier = Modifier.navigationBarsPadding()
@@ -77,7 +84,9 @@ fun AccountsListScreen(
                 tint = MaterialTheme.colors.onPrimary
             )
         }
-    }, modifier = modifier) { innerPadding ->
+    },
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = scaffoldState.snackbarHostState) }) { innerPadding ->
         Column(
             modifier = modifier.padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -90,17 +99,17 @@ fun AccountsListScreen(
             )
             AccountList(
                 accountList = accountsUiState.accountsList,
-                onItemClick = { TODO() },
+                viewModel = viewModel,
                 modifier = Modifier
             )
         }
-
     }
 }
 
 @Composable
 fun AccountList(
-    modifier: Modifier = Modifier, accountList: List<Account>, onItemClick: (String) -> Unit
+    modifier: Modifier = Modifier, accountList: List<Account>,
+    viewModel: AccountsViewModel
 ) {
     Column(
         modifier = modifier
@@ -114,31 +123,48 @@ fun AccountList(
                 style = MaterialTheme.typography.subtitle2
             )
         } else {
+            val showDeleteDialog =
+                rememberUpdatedState(newValue = viewModel.showDeleteConfirmationDialog.value)
             LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(items = accountList, key = { it.name }) { account ->
-                    AccountEntry(account = account, onAccountClick = { onItemClick(it.name) })
+                    AccountEntry(
+                        account = account,
+                        onDeleteClick = { viewModel.performDeleteAction(account) },
+                        onCopyClick = {}
+                    )
+                    if (showDeleteDialog.value == true) {
+                        Log.e("kartikk", "show dialog")
+                        DeleteAccountConfirmationDialog(
+                            onDismiss = { viewModel.onDeleteDialogDismissed() },
+                            onConfirm = { viewModel.performDeleteAction(account) })
+                    }
                 }
             }
         }
     }
+
+
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountEntry(
-    account: Account, onAccountClick: (Account) -> Unit, modifier: Modifier = Modifier
+    account: Account,
+    onDeleteClick: () -> Unit,
+    onCopyClick: (Account) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(60.dp),
-        colors = CardDefaults.cardColors()
+            .heightIn(60.dp), colors = CardDefaults.cardColors()
     ) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onAccountClick(account) }
-            .padding(4.dp),
-            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.gifts),
                 contentDescription = null,
@@ -146,25 +172,62 @@ fun AccountEntry(
                     .padding(8.dp)
                     .size(44.dp)
                     .clip(CircleShape)
-                    .border(width = 5.dp, shape = CircleShape, color = Color.Transparent)
-                    ,
+                    .border(width = 5.dp, shape = CircleShape, color = Color.Transparent),
                 contentScale = ContentScale.Crop
             )
 
-            Column(modifier = Modifier
-                .padding(4.dp)
-                .weight(1f)) {
+            Column(
+                modifier = Modifier
+                    .padding(4.dp)
+                    .weight(1f)
+            ) {
                 Text(text = account.name, fontWeight = FontWeight.Bold)
                 Text(text = account.userName)
             }
             Spacer(modifier = Modifier.weight(1f))
-
             Icon(
                 painterResource(id = R.drawable.ic_content_copy),
                 contentDescription = "Copy",
-                modifier = Modifier.size(32.dp).padding(end = 8.dp)
+                modifier = Modifier
+                    .size(32.dp)
+                    .padding(end = 8.dp)
+                    .clickable { onCopyClick(account) }
+            )
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Delete",
+                modifier = Modifier
+                    .size(32.dp)
+                    .padding(end = 8.dp)
+                    .clickable { onDeleteClick() }
             )
         }
     }
 
+}
+
+@Composable
+fun DeleteAccountConfirmationDialog(onDismiss: () -> Unit, onConfirm: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Confirmation") },
+        text = { Text("Are you sure you want to perform this action?") },
+        confirmButton = {
+            Button(
+                onClick = {
+                    onConfirm()
+                    onDismiss()
+                }
+            ) {
+                Text("Confirm")
+            }
+        },
+        dismissButton = {
+            Button(
+                onClick = onDismiss
+            ) {
+                Text("Cancel")
+            }
+        }
+    )
 }
