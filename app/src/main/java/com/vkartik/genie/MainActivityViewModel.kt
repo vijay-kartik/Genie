@@ -29,7 +29,8 @@ class MainActivityViewModel @Inject constructor(accountService: AccountService) 
     }.stateIn(
         scope = viewModelScope,
         initialValue = MainActivityUiState.Loading,
-        started = SharingStarted.WhileSubscribed(5_000)
+        started = SharingStarted.WhileSubscribed(5_000),
+
     )
 }
 

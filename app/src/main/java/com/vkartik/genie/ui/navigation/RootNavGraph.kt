@@ -41,7 +41,7 @@ fun GenieNavHost(navController: NavHostController, modifier: Modifier) {
         innerPadding ->
         NavHost(navController = navController, startDestination = BottomBarNavDestination.route) {
             composable(route = BottomBarNavDestination.route) {
-                HomeScreen(modifier = modifier)
+                HomeScreen(modifier = modifier.padding(innerPadding))
             }
             settingsGraph(navController)
         }

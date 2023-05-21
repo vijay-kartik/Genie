@@ -31,7 +31,7 @@ fun BottomBarNavHost(
         modifier = modifier
     ) {
         composable(route = AccountsDestination.route) {
-            AccountsNavGraph(modifier = modifier)
+            AccountsNavGraph(modifier = Modifier.fillMaxSize())
         }
         composable(route = ShopDestination.route) {
             WishList(

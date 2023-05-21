@@ -1,16 +1,25 @@
 package com.vkartik.genie.ui.accounts
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.AbsoluteCutCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -18,12 +27,24 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ShapeDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -48,8 +69,7 @@ fun AccountsListScreen(
     val accountsUiState: AccountsUiState by viewModel.accountsUiState.collectAsState()
     Scaffold(floatingActionButton = {
         FloatingActionButton(
-            onClick = navigateToAccountEntry,
-            modifier = Modifier.navigationBarsPadding()
+            onClick = navigateToAccountEntry, modifier = Modifier.navigationBarsPadding()
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
@@ -80,9 +100,7 @@ fun AccountsListScreen(
 
 @Composable
 fun AccountList(
-    modifier: Modifier = Modifier,
-    accountList: List<Account>,
-    onItemClick: (String) -> Unit
+    modifier: Modifier = Modifier, accountList: List<Account>, onItemClick: (String) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -105,26 +123,48 @@ fun AccountList(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountEntry(
-    account: Account,
-    onAccountClick: (Account) -> Unit,
-    modifier: Modifier = Modifier
+    account: Account, onAccountClick: (Account) -> Unit, modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier
-        .fillMaxWidth()
-        .clickable { onAccountClick(account) }
-        .padding(vertical = 16.dp)
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(60.dp),
+        colors = CardDefaults.cardColors()
     ) {
-        Text(
-            text = account.name,
-            modifier = Modifier.weight(1.5f),
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = account.password,
-            modifier = Modifier.weight(1.0f)
-        )
-        Text(text = account.userName, modifier = Modifier.weight(1.0f))
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onAccountClick(account) }
+            .padding(4.dp),
+            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+            Image(
+                painter = painterResource(id = R.drawable.gifts),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .size(44.dp)
+                    .clip(CircleShape)
+                    .border(width = 5.dp, shape = CircleShape, color = Color.Transparent)
+                    ,
+                contentScale = ContentScale.Crop
+            )
+
+            Column(modifier = Modifier
+                .padding(4.dp)
+                .weight(1f)) {
+                Text(text = account.name, fontWeight = FontWeight.Bold)
+                Text(text = account.userName)
+            }
+            Spacer(modifier = Modifier.weight(1f))
+
+            Icon(
+                painterResource(id = R.drawable.ic_content_copy),
+                contentDescription = "Copy",
+                modifier = Modifier.size(32.dp).padding(end = 8.dp)
+            )
+        }
     }
+
 }

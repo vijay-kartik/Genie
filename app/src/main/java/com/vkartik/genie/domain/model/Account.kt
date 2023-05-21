@@ -1,6 +1,9 @@
 package com.vkartik.genie.domain.model
 
+import com.google.firebase.firestore.DocumentId
+
 data class Account(
+    @DocumentId val id: String = "",
     val name: String,
     val userName: String,
     val password: String,
