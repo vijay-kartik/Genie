@@ -30,6 +30,16 @@ class AccountsViewModel @Inject constructor(
             initialValue = AccountsUiState()
         )
 
+    private var copyToClipBoardCallback: ((String) -> Unit)? = null
+
+    fun setCopyToClipboardCallback(callback: (String) -> Unit) {
+        copyToClipBoardCallback = callback
+    }
+
+    fun copyAccountDetailsToClipboard(account: Account) {
+        val content = "username - ${account.userName}\n" + "password - ${account.password}\n"
+        copyToClipBoardCallback?.invoke(content)
+    }
     private val _showDeleteConfirmationDialog = MutableLiveData(false)
     val showDeleteConfirmationDialog: LiveData<Boolean> get() = _showDeleteConfirmationDialog
 

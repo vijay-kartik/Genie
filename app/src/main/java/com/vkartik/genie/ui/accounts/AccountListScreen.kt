@@ -1,5 +1,7 @@
 package com.vkartik.genie.ui.accounts
 
+import android.content.ClipData
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -50,6 +52,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -108,9 +112,15 @@ fun AccountsListScreen(
 
 @Composable
 fun AccountList(
-    modifier: Modifier = Modifier, accountList: List<Account>,
-    viewModel: AccountsViewModel
+    modifier: Modifier = Modifier, accountList: List<Account>, viewModel: AccountsViewModel
 ) {
+    val context = LocalContext.current
+    viewModel.setCopyToClipboardCallback { clipBoardData ->
+        val clipboardManager =
+            context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+        val clipData = ClipData.newPlainText("Account Details", clipBoardData)
+        clipboardManager.setPrimaryClip(clipData)
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -127,15 +137,12 @@ fun AccountList(
                 rememberUpdatedState(newValue = viewModel.showDeleteConfirmationDialog.value)
             LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(items = accountList, key = { it.name }) { account ->
-                    AccountEntry(
-                        account = account,
+                    AccountEntry(account = account,
                         onDeleteClick = { viewModel.performDeleteAction(account) },
-                        onCopyClick = {}
-                    )
+                        onCopyClick = { viewModel.copyAccountDetailsToClipboard(account) })
                     if (showDeleteDialog.value == true) {
                         Log.e("kartikk", "show dialog")
-                        DeleteAccountConfirmationDialog(
-                            onDismiss = { viewModel.onDeleteDialogDismissed() },
+                        DeleteAccountConfirmationDialog(onDismiss = { viewModel.onDeleteDialogDismissed() },
                             onConfirm = { viewModel.performDeleteAction(account) })
                     }
                 }
@@ -177,30 +184,24 @@ fun AccountEntry(
             )
 
             Column(
-                modifier = Modifier
-                    .padding(4.dp)
-                    .weight(1f)
+                modifier = Modifier.padding(4.dp)
             ) {
                 Text(text = account.name, fontWeight = FontWeight.Bold)
-                Text(text = account.userName)
+                Text(text = account.userName, maxLines = 1)
             }
             Spacer(modifier = Modifier.weight(1f))
-            Icon(
-                painterResource(id = R.drawable.ic_content_copy),
+            Icon(painterResource(id = R.drawable.ic_content_copy),
                 contentDescription = "Copy",
                 modifier = Modifier
                     .size(32.dp)
                     .padding(end = 8.dp)
-                    .clickable { onCopyClick(account) }
-            )
-            Icon(
-                imageVector = Icons.Default.Delete,
+                    .clickable { onCopyClick(account) })
+            Icon(imageVector = Icons.Default.Delete,
                 contentDescription = "Delete",
                 modifier = Modifier
                     .size(32.dp)
                     .padding(end = 8.dp)
-                    .clickable { onDeleteClick() }
-            )
+                    .clickable { onDeleteClick() })
         }
     }
 
@@ -208,17 +209,14 @@ fun AccountEntry(
 
 @Composable
 fun DeleteAccountConfirmationDialog(onDismiss: () -> Unit, onConfirm: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
+    AlertDialog(onDismissRequest = onDismiss,
         title = { Text("Confirmation") },
         text = { Text("Are you sure you want to perform this action?") },
         confirmButton = {
-            Button(
-                onClick = {
-                    onConfirm()
-                    onDismiss()
-                }
-            ) {
+            Button(onClick = {
+                onConfirm()
+                onDismiss()
+            }) {
                 Text("Confirm")
             }
         },
@@ -228,6 +226,5 @@ fun DeleteAccountConfirmationDialog(onDismiss: () -> Unit, onConfirm: () -> Unit
             ) {
                 Text("Cancel")
             }
-        }
-    )
+        })
 }
