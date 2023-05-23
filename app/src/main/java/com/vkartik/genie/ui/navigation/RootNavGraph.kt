@@ -14,6 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
@@ -21,25 +23,39 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.vkartik.genie.ui.SplashScreen
 import com.vkartik.genie.ui.shop.ShopDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GenieNavHost(navController: NavHostController, modifier: Modifier) {
+fun GenieNavHost(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController()
+) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentBackStackEntry = navBackStackEntry?.destination
+    val splashScreenRunning = remember { mutableStateOf(true) }
     Scaffold(topBar = {
-        CenterAlignedTopAppBar(
-            title = { currentBackStackEntry?.route?.let { Text(text = it) } },
-            actions = {
-                IconButton(onClick = { navController.navigate(SettingsNavDestination.route) }) {
-                    Icon(Icons.Default.Settings, contentDescription = null)
+        if(!splashScreenRunning.value) {
+            CenterAlignedTopAppBar(
+                title = { currentBackStackEntry?.route?.let { Text(text = it) } },
+                actions = {
+                    IconButton(onClick = { navController.navigate(SettingsNavDestination.route) }) {
+                        Icon(Icons.Default.Settings, contentDescription = null)
 
+                    }
+                })
+        }
+    }) { innerPadding ->
+        NavHost(navController = navController, startDestination = "splash_screen") {
+            composable("splash_screen") {
+                SplashScreen {
+                    splashScreenRunning.value = false
+                    navController.navigate(BottomBarNavDestination.route) {
+                        popUpTo("splash_screen") { inclusive = true }
+                    }
                 }
-            })
-    }) {
-        innerPadding ->
-        NavHost(navController = navController, startDestination = BottomBarNavDestination.route) {
+            }
             composable(route = BottomBarNavDestination.route) {
                 HomeScreen(modifier = modifier.padding(innerPadding))
             }

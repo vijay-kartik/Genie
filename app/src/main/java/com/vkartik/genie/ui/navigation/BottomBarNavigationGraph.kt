@@ -22,8 +22,7 @@ object BottomBarNavDestination {
  */
 @Composable
 fun BottomBarNavHost(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
+    navController: NavHostController, modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
@@ -35,7 +34,6 @@ fun BottomBarNavHost(
         }
         composable(route = ShopDestination.route) {
             WishList(
-                navController = navController,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(vertical = 4.dp),

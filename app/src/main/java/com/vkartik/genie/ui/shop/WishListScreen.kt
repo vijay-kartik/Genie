@@ -34,7 +34,7 @@ object ShopDestination: BottomBarDestination {
 }
 
 @Composable
-fun WishList(modifier: Modifier = Modifier, navController: NavController) {
+fun WishList(modifier: Modifier = Modifier) {
     val itemList = listOf("Food", "Electronics", "Body Care")
     LazyColumn(
         modifier = modifier
@@ -45,7 +45,6 @@ fun WishList(modifier: Modifier = Modifier, navController: NavController) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TextItem(name: String, modifier: Modifier = Modifier) {
     var expanded by remember { mutableStateOf(false) }

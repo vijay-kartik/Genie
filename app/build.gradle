@@ -99,6 +99,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-config-ktx'
 
     implementation "androidx.core:core-splashscreen:1.0.0"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
+    implementation "com.airbnb.android:lottie-compose:$lottie_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

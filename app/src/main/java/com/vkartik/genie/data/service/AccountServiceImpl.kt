@@ -22,7 +22,6 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth): Ac
             val listener =
                 FirebaseAuth.AuthStateListener { auth ->
                     this.trySend(auth.currentUser?.let { User(it.uid, it.isAnonymous, it.email?.isNotEmpty() == true ) } ?: User())
-                    Log.e("kartikk", "uid ${auth.currentUser?.uid}")
                 }
             auth.addAuthStateListener(listener)
             awaitClose { auth.removeAuthStateListener(listener) }
@@ -43,7 +42,6 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth): Ac
     override suspend fun linkAccount(email: String, password: String) {
         trace("link account") {
             val credential = EmailAuthProvider.getCredential(email, password)
-            Log.e("Kartik", "link account ${credential}")
             auth.currentUser!!.linkWithCredential(credential).await()
         }
     }
