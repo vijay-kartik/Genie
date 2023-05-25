@@ -24,6 +24,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.vkartik.genie.ui.SplashScreen
+import com.vkartik.genie.ui.intro.OnboardingScreen
+import com.vkartik.genie.ui.intro.SetupScreen
 import com.vkartik.genie.ui.shop.ShopDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,8 +53,22 @@ fun GenieNavHost(
             composable("splash_screen") {
                 SplashScreen {
                     splashScreenRunning.value = false
-                    navController.navigate(BottomBarNavDestination.route) {
+                    navController.navigate("intro_screen") {
                         popUpTo("splash_screen") { inclusive = true }
+                    }
+                }
+            }
+            composable("intro_screen") {
+                OnboardingScreen {
+                    navController.navigate("setup_screen") {
+                        popUpTo("intro_screen") { inclusive = true }
+                    }
+                }
+            }
+            composable("setup_screen") {
+                SetupScreen {
+                    navController.navigate(BottomBarNavDestination.route) {
+                        popUpTo("setup_screen") { inclusive = true }
                     }
                 }
             }
