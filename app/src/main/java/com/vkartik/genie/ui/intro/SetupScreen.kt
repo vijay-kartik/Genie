@@ -1,9 +1,5 @@
 package com.vkartik.genie.ui.intro
 
-import android.content.Context
-import android.content.SharedPreferences
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricPrompt
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,14 +24,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.vkartik.genie.R
+import com.vkartik.genie.ui.utils.setupBiometric
+import com.vkartik.genie.ui.utils.showBiometricPrompt
 
 @Composable
-fun SetupScreen(navigateToHome: () -> Unit) {
+fun SetupScreen(navigateToHome: () -> Unit, viewModel: SetupViewModel = hiltViewModel()) {
     var masterKey = remember { mutableStateOf("") }
     var phoneNumber = remember { mutableStateOf("") }
     var isBiometricEnabled = remember { mutableStateOf(false) }
@@ -58,7 +54,10 @@ fun SetupScreen(navigateToHome: () -> Unit) {
         )
         OutlinedTextField(
             value = masterKey.value,
-            onValueChange = { masterKey.value = it },
+            onValueChange = {
+                masterKey.value = it
+                viewModel.onMasterKeyChanged(it)
+            },
             label = { Text("Master Key") },
             visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -74,7 +73,10 @@ fun SetupScreen(navigateToHome: () -> Unit) {
         )
         OutlinedTextField(
             value = phoneNumber.value,
-            onValueChange = { phoneNumber.value = it },
+            onValueChange = {
+                phoneNumber.value = it
+                viewModel.onPhoneNumberChanged(it)
+            },
             label = { Text("Phone Number") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -84,7 +86,10 @@ fun SetupScreen(navigateToHome: () -> Unit) {
         ) {
             Checkbox(
                 checked = isBiometricEnabled.value,
-                onCheckedChange = { isBiometricEnabled.value = it }
+                onCheckedChange = {
+                    isBiometricEnabled.value = it
+                    viewModel.enableBiometric(it)
+                }
             )
             Text(
                 text = "Enable Biometric Scan",
@@ -94,12 +99,7 @@ fun SetupScreen(navigateToHome: () -> Unit) {
         }
         Button(
             onClick = {
-                val sharedPref = setupEncryptedSharedPreferences(context)
-                with(sharedPref.edit()) {
-                    putString("master_key", masterKey.value)
-                    putString("phone_number", phoneNumber.value)
-                    apply()
-                }
+                viewModel.setupAuthentication()
 
                 if (isBiometricEnabled.value) {
                     setupBiometric(context) {
@@ -117,51 +117,3 @@ fun SetupScreen(navigateToHome: () -> Unit) {
         }
     }
 }
-
-fun setupEncryptedSharedPreferences(context: Context): SharedPreferences {
-    val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-
-    return EncryptedSharedPreferences.create(
-        "secret_shared_prefs",
-        masterKeyAlias,
-        context,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
-}
-
-fun setupBiometric(context: Context, onSuccess: () -> Unit) {
-    val biometricManager = BiometricManager.from(context)
-    when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
-        BiometricManager.BIOMETRIC_SUCCESS ->
-            onSuccess()
-        // The user hasn't associated any biometric credentials with their account.
-    }
-}
-
-fun showBiometricPrompt(context: Context, fragmentActivity: FragmentActivity, onSuccess: () -> Unit) {
-    val biometricPrompt = BiometricPrompt(fragmentActivity, ContextCompat.getMainExecutor(context), object : BiometricPrompt.AuthenticationCallback() {
-        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-            super.onAuthenticationError(errorCode, errString)
-        }
-
-        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-            super.onAuthenticationSucceeded(result)
-            onSuccess()
-        }
-
-        override fun onAuthenticationFailed() {
-            super.onAuthenticationFailed()
-            // Handle failure
-        }
-    })
-
-    val promptInfo = BiometricPrompt.PromptInfo.Builder()
-        .setTitle("Biometric login for my app")
-        .setSubtitle("Log in using your biometric credential")
-        .setNegativeButtonText("Use account password")
-        .build()
-
-    biometricPrompt.authenticate(promptInfo)
-}
-

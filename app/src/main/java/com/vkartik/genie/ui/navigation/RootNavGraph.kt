@@ -38,7 +38,7 @@ fun GenieNavHost(
     val currentBackStackEntry = navBackStackEntry?.destination
     val splashScreenRunning = remember { mutableStateOf(true) }
     Scaffold(topBar = {
-        if(!splashScreenRunning.value) {
+        if (!splashScreenRunning.value) {
             CenterAlignedTopAppBar(
                 title = { currentBackStackEntry?.route?.let { Text(text = it) } },
                 actions = {
@@ -66,11 +66,11 @@ fun GenieNavHost(
                 }
             }
             composable("setup_screen") {
-                SetupScreen {
+                SetupScreen(navigateToHome = {
                     navController.navigate(BottomBarNavDestination.route) {
                         popUpTo("setup_screen") { inclusive = true }
                     }
-                }
+                })
             }
             composable(route = BottomBarNavDestination.route) {
                 HomeScreen(modifier = modifier.padding(innerPadding))
