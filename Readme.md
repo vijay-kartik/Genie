@@ -1,6 +1,6 @@
 # Genie - Offline Password Manager
 
-![Genie App Icon](https://github.com/vijay-kartik/Genie/app/src/main/ic_app_icon-playstore.png)
+![Genie App Icon](app/src/main/ic_app_icon-playstore.png)
 
 Genie is a secure and user-friendly Android application that allows users to store and manage their passwords locally on their device. The app is built with Jetpack Compose and uses the Android Keystore System for secure encryption of user data.
 
