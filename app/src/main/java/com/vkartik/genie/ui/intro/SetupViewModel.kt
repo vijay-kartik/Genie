@@ -1,10 +1,12 @@
 package com.vkartik.genie.ui.intro
 
 import android.content.SharedPreferences
+import android.util.Base64
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.vkartik.genie.ui.utils.KeystoreHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -14,13 +16,17 @@ class SetupViewModel @Inject constructor(val sharedPreferences: SharedPreference
     val uiState: State<SetupUiState> get() = _uiState
 
     fun setupAuthentication() {
+        val cipher = KeystoreHelper.getEncryptionCipher()
+        val encryptedMasterKey = cipher.doFinal(_uiState.value.masterKey.toByteArray())
+        val ivString = Base64.encodeToString(cipher.iv, Base64.DEFAULT)
+        val ek = Base64.encodeToString(encryptedMasterKey, Base64.DEFAULT)
         with(sharedPreferences.edit()) {
-            putString("master_key", _uiState.value.masterKey)
+            putString("master_key", ek)
+            putString("iv", ivString)
             putString("phone_number", _uiState.value.phoneNumber)
             putBoolean("is_biometric_enabled", _uiState.value.isBiometricEnabled)
             apply()
         }
-        Log.e("kartik", "mk ${_uiState.value.masterKey}")
     }
 
     fun onMasterKeyChanged(masterKey: String) {
