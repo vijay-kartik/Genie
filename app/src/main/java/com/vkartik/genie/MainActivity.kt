@@ -44,7 +44,7 @@ class MainActivity : FragmentActivity() {
 
         setContent {
             GenieTheme {
-                GenieNavHost()
+                GenieNavHost(viewModel.setupComplete)
             }
         }
     }

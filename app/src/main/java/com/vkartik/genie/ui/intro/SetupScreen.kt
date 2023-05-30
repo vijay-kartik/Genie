@@ -32,7 +32,7 @@ import com.vkartik.genie.ui.utils.showBiometricPrompt
 
 @Composable
 fun SetupScreen(navigateToHome: () -> Unit, viewModel: SetupViewModel = hiltViewModel()) {
-    var masterKey = remember { mutableStateOf("") }
+    val masterKey = remember { mutableStateOf("") }
     var phoneNumber = remember { mutableStateOf("") }
     var isBiometricEnabled = remember { mutableStateOf(false) }
     var passwordVisibility = remember { mutableStateOf(false) }
@@ -100,7 +100,7 @@ fun SetupScreen(navigateToHome: () -> Unit, viewModel: SetupViewModel = hiltView
         Button(
             onClick = {
                 viewModel.setupAuthentication()
-
+                viewModel.saveUserSetupAsComplete()
                 if (isBiometricEnabled.value) {
                     setupBiometric(context) {
                         showBiometricPrompt(context, context as FragmentActivity) {
@@ -110,6 +110,7 @@ fun SetupScreen(navigateToHome: () -> Unit, viewModel: SetupViewModel = hiltView
                 } else {
                     navigateToHome()
                 }
+
             },
             modifier = Modifier.fillMaxWidth()
         ) {

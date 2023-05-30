@@ -24,6 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.vkartik.genie.ui.SplashScreen
+import com.vkartik.genie.ui.intro.OfflineLoginScreen
 import com.vkartik.genie.ui.intro.OnboardingScreen
 import com.vkartik.genie.ui.intro.SetupScreen
 import com.vkartik.genie.ui.shop.ShopDestination
@@ -31,6 +32,7 @@ import com.vkartik.genie.ui.shop.ShopDestination
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenieNavHost(
+    setupComplete: Boolean,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
@@ -42,7 +44,7 @@ fun GenieNavHost(
             CenterAlignedTopAppBar(
                 title = { currentBackStackEntry?.route?.let { Text(text = it) } },
                 actions = {
-                    IconButton(onClick = { navController.navigate(SettingsNavDestination.route) }) {
+                    IconButton(onClick = { /* TODO */ }) {
                         Icon(Icons.Default.Settings, contentDescription = null)
 
                     }
@@ -53,8 +55,16 @@ fun GenieNavHost(
             composable("splash_screen") {
                 SplashScreen {
                     splashScreenRunning.value = false
-                    navController.navigate("intro_screen") {
-                        popUpTo("splash_screen") { inclusive = true }
+                    if (setupComplete) {
+                        navController.navigate("offline_login_screen") {
+                            popUpTo("splash_screen") {
+                                inclusive = true
+                            }
+                        }
+                    } else {
+                        navController.navigate("intro_screen") {
+                            popUpTo("splash_screen") { inclusive = true }
+                        }
                     }
                 }
             }
@@ -75,7 +85,15 @@ fun GenieNavHost(
             composable(route = BottomBarNavDestination.route) {
                 HomeScreen(modifier = modifier.padding(innerPadding))
             }
-            settingsGraph(navController)
+            composable("offline_login_screen") {
+                OfflineLoginScreen(navigateToHome = {
+                    navController.navigate(BottomBarNavDestination.route) {
+                        popUpTo("offline_login_screen") {
+                            inclusive = true
+                        }
+                    }
+                })
+            }
         }
     }
 

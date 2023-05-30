@@ -1,6 +1,7 @@
 package com.vkartik.genie.ui.intro
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -19,17 +20,29 @@ class SetupViewModel @Inject constructor(val sharedPreferences: SharedPreference
             putBoolean("is_biometric_enabled", _uiState.value.isBiometricEnabled)
             apply()
         }
+        Log.e("kartik", "mk ${_uiState.value.masterKey}")
     }
 
     fun onMasterKeyChanged(masterKey: String) {
-        _uiState.value.copy(masterKey = masterKey)
+        Log.e("kartik", "bf change $masterKey")
+        _uiState.value = _uiState.value.copy(masterKey = masterKey)
+        Log.e("kartik", "mk ${_uiState.value.masterKey}")
     }
 
     fun onPhoneNumberChanged(phoneNumber: String) {
-        _uiState.value.copy(phoneNumber = phoneNumber)
+        Log.e("kartik", "bf change $phoneNumber")
+        _uiState.value = _uiState.value.copy(phoneNumber = phoneNumber)
+        Log.e("kartik", "pn ${_uiState.value.phoneNumber}")
     }
 
     fun enableBiometric(isBiometricEnabled: Boolean) {
-        _uiState.value.copy(isBiometricEnabled = isBiometricEnabled)
+        _uiState.value = _uiState.value.copy(isBiometricEnabled = isBiometricEnabled)
+    }
+
+    fun saveUserSetupAsComplete() {
+        with(sharedPreferences.edit()) {
+            putBoolean("setup_complete", true)
+            apply()
+        }
     }
 }
